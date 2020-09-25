@@ -22,7 +22,7 @@ data "aws_ami" "mohitami" {
  }
 
 resource "aws_instance" "mohitawsserver" {
-  ami = "ami-0b16724fe8e66e4ec"
+  ami = data.aws_ami.mohitami.id
   key_name = "mohit-cicd"
   instance_type = "t2.micro"
 
