@@ -12,6 +12,15 @@ provider "aws" {
   region = "us-east-1"
 }
 
+data "aws_ami" "mohitami" {
+  most_recent      = true
+  owners           = ["self"]
+  filter {
+    name   = "name"
+    values = ["mohitchy1-ubuntu-*"]
+   }
+ }
+
 resource "aws_instance" "mohitawsserver" {
   ami = "ami-0b16724fe8e66e4ec"
   key_name = "mohit-cicd"
@@ -22,7 +31,7 @@ resource "aws_instance" "mohitawsserver" {
     Env = "Dev"
   }
   provisioner "local-exec" {
-    command = "echo The servers IP address is ${self.public_ip} && echo ${self.private_ip} myawsserver >> /etc/hosts"
+    command = "echo ${self.public_ip} > /etc/ansible/hosts"
   }
  
 provisioner "remote-exec" {
